@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx" xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd
+ 		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- bean definitions here -->
+    
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+    
+    <bean id="c3p0" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="driverClass" value="${jabc.driver}"/>
+    </bean>
+    
+    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="dataSourceTransactionManager">
+    	<property name="dataSource" ref="c3p0"/>
+    </bean>
+    
+    <bean id="ssfBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+    	<property name="configLocation" value="classpath:myBatis.xml"/>
+    	<property name="dataSource" ref="c3p0"/>
+    </bean>
+    
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    	<property name="sqlSessionFactoryBeanName" value="ssfBean"/>
+    	<property name="basePackage" value="com.dl.dao"/>
+    </bean>
+    
+    <tx:advice transaction-manager="dataSourceTransactionManager" id="advice">
+    	<tx:attributes>
+    		<tx:method name="*User" isolation="DEFAULT" propagation="REQUIRED"/>
+    	</tx:attributes>
+    </tx:advice>
+    
+    <aop:config>
+    	<aop:pointcut expression="execution(* *..MyServer.*(..))" id="pc"/>
+    	<aop:advisor advice-ref="advice" pointcut-ref="pc"/>
+    </aop:config>
+    
+    <bean id="myServer" class="com.dl.server.MyServer">
+    	<property name="ud" ref="userDao"/>
+    </bean>
+
+</beans>

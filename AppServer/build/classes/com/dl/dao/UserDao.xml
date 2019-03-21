@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="com.dl.dao.UserDao">
+    
+    <resultMap type="com.dl.dao.UserDao" id="resultMap">
+        <id property="id" column="_ID"/>
+        <result property="account" column="_ACCOUNT"/>
+        <result property="password" column="_PASSWORD"/>
+        <result property="date" column="_DATE"/>
+        <result property="phone" column="_PHONE"/>
+        <result property="username" column="_USERNAME"/>
+    </resultMap>
+
+    <insert id="insertUser">
+        INSERT INTO TBL_MAIN(_ACCOUNT, _PASSWORD, _DATE, _USERNAME, _PHONE) VALUES(#{account}, #{password}, #{date}, #{username}, #{phone});
+    </insert>
+    
+    <!-- 
+    <delete id="deleteUser">
+        DELETE FROM TBL_MAIN WHERE 
+    </delete>
+     -->
+     
+    <update id="updateUser">
+        UPDATE TBL_MAIN SET _USERNAME = #{username}, _PHONE = #{phone} WHERE _ACCOUNT = #{account};
+    </update>
+    
+    <select id="selectOne" resultMap="resultMap">
+        SELECT  _DATE, _USERNAME, _PHONE FROM TBL_MAIN WHERE _ACCOUNT = #{account};
+    </select>
+
+</mapper>
+
+
+
