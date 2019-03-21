@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+		<base href="/java-web/"/>
+		<style type="text/css">
+			th{
+				width: 50%;
+			}
+		</style>
+		<script type="text/javascript" src="/java-web/jq/jquery-3.3.1.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				
+				$.ajax({
+					type:"POST",
+					url:"myServlet",
+					ascnc:true,
+					cache:false,
+					dataType:"text",
+					data:{"action":"selectAllStudent"},
+					success:function(result,textStatus){
+						var str = "var arr = " + result;
+						window.eval(str);
+						
+						for(var i = 0; i < arr.length; ++ i){
+							$("#tbody").append($("<tr><th>"+arr[i].name+"</th><th>"+arr[i].num+"</th></tr>"));
+						}
+						
+						
+					},
+					error:function(XMLHttpRequest, textStatus, errorThrown){
+						alert("readyState:"+XMLHttpRequest.readyState);
+						alert("status:"+XMLHttpRequest.status);
+					}
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<center>
+			<font style="font-weight: bolder; font-size: 300%;">学生信息查询</font>
+			<hr style="height: 2px; background-color: black;" >
+			<br><br>
+			<table border="1" style="width: 50%;">
+				<thead id="thead">
+					<tr>
+						<th>学生学号</th><th>学生姓名</th>
+					</tr>
+				</thead>
+				
+				<tbody id="tbody">
+					
+				</tbody>
+				
+				<tfoot id="thead">
+				</tfoot>
+			</table>
+		</center>
+	</body>
+</html>
