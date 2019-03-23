@@ -2,6 +2,7 @@ package com.dl.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,9 +16,9 @@ import com.dl.server.MyServer;
 import com.dl.user.MyUser;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class RegisterServlets
  */
-public class LoginServlet extends HttpServlet {
+public class RegisterServlets extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -27,10 +28,6 @@ public class LoginServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		
-		/*
-		 * 
-		 * 设置请求和响应的编码 utf-8
-		 */
 		response.setContentType("text/plain;charset=utf-8");
 		request.setCharacterEncoding("utf-8");
 		WebApplicationContext webApplicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
@@ -41,16 +38,27 @@ public class LoginServlet extends HttpServlet {
 		 */
 		String account = request.getParameter("account");
 		String password = request.getParameter("password");
-		MyUser myUser = myServer.queryOne(new MyUser(account, password, null, null, null));
+		String date = request.getParameter("date");
+		System.out.println(account + " " + password + "  " + date);
 		
-		System.out.println(account + "     "+password);
+		try {
+			myServer.addUser(new MyUser(account, password, date, null, null));
+		}catch (Exception e) {
+			// TODO: handle exception
+			PrintWriter writer = response.getWriter();
+			writer.write("fail");
+			writer.close();
+		}
+		
+		
+		/*
 		
 		if(null != myUser) {
 			PrintWriter writer = response.getWriter();
 			writer.write("success");
 			writer.close();
 		}
-		
+		*/
 	}
 
 	/**

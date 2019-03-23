@@ -7,16 +7,16 @@ public class MyServer {
 	
 	private UserDao ud;
 	
-	MyUser queryOne(MyUser mu) {
+	public MyUser queryOne(MyUser mu) {
 		return ud.selectOne(mu);
 	}
 	
-	void addUser (MyUser mu) {
+	public void addUser (MyUser mu) {
 		ud.insertUser(mu);
 	}
 	
 	//void deleteUser(String account);
-	void flushUser(String account) {
+	public void flushUser(String account) {
 		ud.updateUser(account);
 	}
 	

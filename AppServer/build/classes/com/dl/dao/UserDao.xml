@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.dl.dao.UserDao">
     
-    <resultMap type="com.dl.dao.UserDao" id="resultMap">
+    <resultMap type="com.dl.user.MyUser" id="resultMap">
         <id property="id" column="_ID"/>
         <result property="account" column="_ACCOUNT"/>
         <result property="password" column="_PASSWORD"/>
@@ -34,7 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
     
     <select id="selectOne" resultMap="resultMap">
-        SELECT  _DATE, _USERNAME, _PHONE FROM TBL_MAIN WHERE _ACCOUNT = #{account};
+        SELECT _ACCOUNT, _DATE, _USERNAME, _PHONE  FROM TBL_MAIN WHERE _ACCOUNT = #{account} AND _PASSWORD = #{password};
     </select>
 
 </mapper>

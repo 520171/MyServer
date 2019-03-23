@@ -40,10 +40,33 @@ public class MyUser {
 		this.phone = phone;
 	}
 	
+	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	@Override
 	public String toString() {
 		return "MyUser [id=" + id + ", account=" + account + ", password=" + password + ", date=" + date + ", username="
 				+ username + ", phone=" + phone + "]";
+	}
+	public MyUser(String account, String password, String date, String username, String phone) {
+		super();
+		this.account = account;
+		this.password = password;
+		this.date = date;
+		this.username = username;
+		this.phone = phone;
+	}
+	
+	public MyUser(String account, String date, String username, String phone) {
+		super();
+		this.account = account;
+		this.date = date;
+		this.username = username;
+		this.phone = phone;
 	}
 	
 	
